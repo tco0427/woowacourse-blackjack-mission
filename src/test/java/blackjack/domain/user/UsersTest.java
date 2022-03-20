@@ -1,14 +1,11 @@
 package blackjack.domain.user;
 
+import static blackjack.Fixtures.DIAMOND_TEN;
+import static blackjack.Fixtures.SPADE_ACE;
 import static blackjack.TestUtils.createPlayerByName;
-import static blackjack.domain.card.Denomination.ACE;
-import static blackjack.domain.card.Denomination.TEN;
-import static blackjack.domain.card.Suit.DIAMOND;
-import static blackjack.domain.card.Suit.SPADE;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import blackjack.domain.card.Card;
 import blackjack.domain.card.Deck;
 import blackjack.domain.strategy.ShuffledDeckGenerateStrategy;
 import blackjack.domain.vo.BettingMoney;
@@ -80,9 +77,7 @@ class UsersTest {
 
         User player = Player.from(name, new BettingMoney(10000));
 
-        Deck deck = new Deck(() -> new ArrayDeque<>(
-                List.of(new Card(SPADE, ACE), new Card(DIAMOND, TEN)))
-                );
+        Deck deck = new Deck(() -> new ArrayDeque<>(List.of(SPADE_ACE, DIAMOND_TEN)));
 
         //when
         player.drawCard(deck);
