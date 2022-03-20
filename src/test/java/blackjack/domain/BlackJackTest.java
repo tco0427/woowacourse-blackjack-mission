@@ -45,6 +45,31 @@ class BlackJackTest {
         assertThat(size).isEqualTo(2);
     }
 
+    @DisplayName("추가 카드를 뽑아가는 기능 테스트")
+    @Test
+    public void testDrawAdditionalCard() {
+        //given
+        Map<Name, BettingMoney> playerInfo = createPlayerInfo(List.of("pobi", "jason"));
+
+        BlackJack blackJack = BlackJack.from(playerInfo, new ShuffledDeckGenerateStrategy());
+
+        //when
+        blackJack.drawAdditionalCard(player -> blackJack.drawCardFromUser(player), dealer -> blackJack.drawCardFromUser(dealer));
+
+        //then
+        Users users = blackJack.getUsers();
+
+        List<Integer> playersSize = users.getPlayers().stream()
+                .map(user -> user.showCards().size())
+                .collect(toList());
+
+        int dealerSize = users.getDealer().showCards().size();
+
+        assertThat(playersSize.get(0)).isEqualTo(1);
+        assertThat(playersSize.get(1)).isEqualTo(1);
+        assertThat(dealerSize).isEqualTo(1);
+    }
+
     private Map<Name, BettingMoney> createPlayerInfo(List<String> names) {
         Map<Name, BettingMoney> playerInfo = new HashMap<>();
 
